@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     articleserver = {
-      version = ">= 0.2"
+      version = "0.2"
       source = "hashicorp.com/edu/articleserver"
     }
   }
