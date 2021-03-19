@@ -7,11 +7,6 @@ terraform {
   }
 }
 
-variable "article_name" {
-  type    = string
-  default = "demo"
-}
-
 data "articleserver_articles" "all" {}
 
 # Returns all articles

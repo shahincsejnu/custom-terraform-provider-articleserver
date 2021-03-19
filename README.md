@@ -1,6 +1,7 @@
 # custom-terraform-provider-
 
 - Followed this [tutorial](https://learn.hashicorp.com/tutorials/terraform/provider-setup?in=terraform/providers)
+- Check all the branches to see the step by step process
 
 ## Intuitions
 

@@ -107,14 +107,32 @@ func dataSourceArticlesRead(ctx context.Context, d *schema.ResourceData, m inter
 	// warnings or errors can be collected in a slice type
 	var diags diag.Diagnostics
 
-	req, err := http.NewRequest("GET", fmt.Sprintf("%s/articles", "http://localhost:8080/api"), nil)
+	req, err := http.NewRequest("GET", fmt.Sprintf("%s/login", "http://localhost:8080/api"), nil)
 	if err != nil {
 		return diag.FromErr(err)
 	}
-
-	req.Header.Set("Token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTYxNzE3MDB9.lt8XHO4bnB7Y5cnQyWRm-qIqCvTzS_7EgXcEHQNmpu8")
-
+	req.Header.Set("Authorization", "Basic YWRtaW46YWRtaW4K")
+	fmt.Println("calling...")
 	r, err := client.Do(req)
+	if err != nil {
+		fmt.Println("error occured here")
+		return diag.FromErr(err)
+	}
+	fmt.Println(r)
+	var tkn string
+	tkn = r.Header.Get("Token")
+	fmt.Println(tkn)
+	fmt.Println("login")
+	r.Body.Close()
+
+	req, err = http.NewRequest("GET", fmt.Sprintf("%s/articles", "http://localhost:8080/api"), nil)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	fmt.Println(tkn)
+	req.Header.Set("Token", tkn)
+
+	r, err = client.Do(req)
 
 	if err != nil {
 		fmt.Println("error occured")
