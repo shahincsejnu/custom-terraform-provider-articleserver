@@ -111,7 +111,7 @@ func dataSourceArticlesRead(ctx context.Context, d *schema.ResourceData, m inter
 	if err != nil {
 		return diag.FromErr(err)
 	}
-	req.Header.Set("Authorization", "Basic YWRtaW46YWRtaW4K")
+	req.Header.Set("Authorization", "Basic YWRtaW46YWRtaW4=")
 	fmt.Println("calling...")
 	r, err := client.Do(req)
 	if err != nil {
