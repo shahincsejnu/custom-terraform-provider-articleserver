@@ -17,6 +17,21 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
+
+type Article struct {
+	ID     string `json:"id"`
+	Title  string `json:"title"`
+	Body   string `json:"body"`
+	Author Author `json:"author"`
+}
+
+type Author struct {
+	ID     string  `json:"id"`
+	Name   string  `json:"name"`
+	Rating float64 `json:"rating"`
+}
+
+
 // The dataSourceArticles function returns a schema.Resource which defines the schema and CRUD operations for the resource.
 // Since Terraform data resources should only read information (not create, update or delete), only read (ReadContext) is defined.
 func dataSourceArticles() *schema.Resource {
@@ -97,19 +112,25 @@ func dataSourceArticlesRead(ctx context.Context, d *schema.ResourceData, m inter
 		return diag.FromErr(err)
 	}
 
+	req.Header.Set("Token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTYxNzE3MDB9.lt8XHO4bnB7Y5cnQyWRm-qIqCvTzS_7EgXcEHQNmpu8")
+
 	r, err := client.Do(req)
+
 	if err != nil {
+		fmt.Println("error occured")
 		return diag.FromErr(err)
 	}
 	defer r.Body.Close()
 
-	articles := make([]map[string]interface{}, 0)
+	// articles := make([]map[string]interface{}, 0)
+	var articles []Article
 	err = json.NewDecoder(r.Body).Decode(&articles)
+
 	if err != nil {
 		return diag.FromErr(err)
 	}
 
-	if err := d.Set("articles", articles); err != nil {
+	if err := d.Set("articles", flattenArticles(articles)); err != nil {
 		return diag.FromErr(err)
 	}
 
@@ -118,3 +139,31 @@ func dataSourceArticlesRead(ctx context.Context, d *schema.ResourceData, m inter
 
 	return diags
 }
+
+func flattenArticles(articles []Article) []map[string]interface{} {
+	specs := make([]map[string]interface{}, len(articles))
+	for i := range articles {
+		specs[i] = map[string]interface{}{
+			"id": articles[i].ID,
+			"title": articles[i].Title,
+			"body": articles[i].Body,
+			"author": flattenAuthor(articles[i]),
+		}
+	}
+
+	return specs
+}
+
+func flattenAuthor(article Article) []map[string]interface{} {
+	specs := make([]map[string]interface{}, 1)
+
+	specs[0] = map[string]interface{}{
+		"id": article.Author.ID,
+		"name": article.Author.Name,
+		"rating": article.Author.Rating,
+	}
+
+	return specs;
+}
+
+
