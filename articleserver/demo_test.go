@@ -3,6 +3,7 @@ package articleserver
 import (
 	"encoding/json"
 	"fmt"
+
 	"net/http"
 	"testing"
 	"time"
@@ -10,29 +11,38 @@ import (
 
 func TestName(t *testing.T) {
 	client := &http.Client{Timeout: 10 * time.Second}
-	req, err := http.NewRequest("GET", fmt.Sprintf("%s/login", "http://localhost:8080/api"), nil)
+	// Warning or errors can be collected in a slice type
+	//var diags diag.Diagnostics
+
+	ID := "10"
+
+	req, err := http.NewRequest("GET", fmt.Sprintf("%s/article/%s", "http://localhost:8080/api", ID), nil)
+	oka := fmt.Sprintf("%s/article/%s", "http://localhost:8080/api", ID)
+	fmt.Println(oka)
+	fmt.Println("request")
 	if err != nil {
-		fmt.Println(err)
 		return
 	}
-	req.Header.Set("Authorization", "Basic YWRtaW46YWRtaW4=")
-	fmt.Println("calling...")
+	req.Header.Set("Token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTY0MTQ2ODF9.hGVvJp4Itfzcm9LTFU8orsxEU0xHkOQB5hPoOXT7O2g")
+
 	r, err := client.Do(req)
+	fmt.Println("response")
 	if err != nil {
-		fmt.Println("error occured here")
 		return
 	}
-	fmt.Println(r)
-	var tkn string
-	// tkn = r.Header.Get("Token")
-	var demo string
-	err = json.NewDecoder(r.Body).Decode(&demo)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Println(demo)
-	fmt.Println(tkn)
-	fmt.Println("login")
-	r.Body.Close()
+	defer r.Body.Close()
+
+	var article []Article
+	var demoArticle Article
+	err = json.NewDecoder(r.Body).Decode(&demoArticle)
+	fmt.Println(demoArticle)
+	article = append(article, demoArticle)
+
+	fmt.Println(article)
+
+	//if err := d.Set("article", flattenArticles(article)); err != nil {
+	//	return
+	//}
+
+	return
 }

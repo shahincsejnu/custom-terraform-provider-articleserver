@@ -7,9 +7,8 @@ terraform {
   }
 }
 
-data "articleserver_articles" "all" {}
+data "articleserver_article" "single" {}
 
-# Returns all articles
-output "all_articles" {
-  value = data.articleserver_articles.all
+output "single_article" {
+  value = data.articleserver_article.single.article
 }

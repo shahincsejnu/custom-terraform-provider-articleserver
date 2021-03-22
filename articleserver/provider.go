@@ -12,9 +12,12 @@ import (
 // any callbacks to configure (ConfigureContextFunc)
 func Provider() *schema.Provider {
 	return &schema.Provider{
-		ResourcesMap: map[string]*schema.Resource{},
+		ResourcesMap: map[string]*schema.Resource{
+			"articleserver_resourceCRUD": resourceCRUD(),
+		},
 		DataSourcesMap: map[string]*schema.Resource{
 			"articleserver_articles": dataSourceArticles(),
+			"articleserver_article":  dataSourceArticle(),
 		},
 	}
 }
