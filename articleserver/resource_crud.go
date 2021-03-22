@@ -10,7 +10,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"strconv"
 	"time"
 )
 
@@ -123,8 +122,8 @@ func resourceCreate(ctx context.Context, d *schema.ResourceData, m interface{}) 
 	}
 
 	// always run
-	//d.SetId(demoArticle.ID)
-	d.SetId(strconv.FormatInt(time.Now().Unix(), 10))
+	d.SetId(demoArticle.ID)
+	//d.SetId(strconv.FormatInt(time.Now().Unix(), 10))
 
 	return diags
 }
@@ -134,14 +133,9 @@ func resourceRead(ctx context.Context, d *schema.ResourceData, m interface{}) di
 	// Warning or errors can be collected in a slice type
 	var diags diag.Diagnostics
 
-	//ID := d.Id()
+	ID := d.Id()
 
-	articleSchema := d.Get("article").([]interface{})
-	i := articleSchema[0].(map[string]interface{})
-
-	resID := i["id"].(interface{}).(string)
-
-	req, err := http.NewRequest("GET", fmt.Sprintf("%s/article/%s", "http://localhost:8080/api", resID), nil)
+	req, err := http.NewRequest("GET", fmt.Sprintf("%s/article/%s", "http://localhost:8080/api", ID), nil)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -176,7 +170,7 @@ func resourceRead(ctx context.Context, d *schema.ResourceData, m interface{}) di
 func resourceUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 
-	if d.HasChange("article") {
+	//if d.HasChange("article") {
 		client := &http.Client{Timeout: 10 * time.Second}
 		// Warning or errors can be collected in a slice type
 
@@ -210,11 +204,12 @@ func resourceUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) 
 		byteArticle, err := json.Marshal(article)
 		if err != nil {
 			log.Println(err)
+			return diag.FromErr(err)
 		}
 
 		ID := article.ID
 
-		req, err := http.NewRequest("PUT", fmt.Sprintf("%s/article%s", "http://localhost:8080/api", ID), bytes.NewBuffer(byteArticle))
+		req, err := http.NewRequest("PUT", fmt.Sprintf("%s/article/%s", "http://localhost:8080/api", ID), bytes.NewBuffer(byteArticle))
 		if err != nil {
 			return diag.FromErr(err)
 		}
@@ -227,7 +222,7 @@ func resourceUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) 
 			return diag.FromErr(err)
 		}
 
-	}
+	//}
 
 	//return resourceRead(ctx, d, m)
 	return diags
@@ -239,6 +234,7 @@ func resourceDelete(ctx context.Context, d *schema.ResourceData, m interface{}) 
 	var diags diag.Diagnostics
 
 	ID := d.Id()
+
 
 	req, err := http.NewRequest("DELETE", fmt.Sprintf("%s/article/%s", "http://localhost:8080/api", ID), nil)
 	if err != nil {

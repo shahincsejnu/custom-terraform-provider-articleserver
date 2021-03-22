@@ -9,13 +9,13 @@ terraform {
 
 resource "articleserver_resourceCRUD" "first_resource" {
   article {
-    id = "16"
+    id = "22"
     title = "terraform post"
     body = "just demo changed"
     author {
       id = "20"
       name = "terraform"
-      rating = 20
+      rating = 30
     }
   }
 }
