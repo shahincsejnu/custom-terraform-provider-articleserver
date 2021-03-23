@@ -23,7 +23,7 @@ func TestName(t *testing.T) {
 	if err != nil {
 		return
 	}
-	req.Header.Set("Token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTY0MTQ2ODF9.hGVvJp4Itfzcm9LTFU8orsxEU0xHkOQB5hPoOXT7O2g")
+	req.Header.Set("Token", tkn)
 
 	r, err := client.Do(req)
 	fmt.Println("response")

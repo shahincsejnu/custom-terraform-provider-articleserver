@@ -22,10 +22,12 @@
 - Navigate to the `custom-terraform-provider-articleserver/examples` directory. Here you can use your custom provider by terraform
          
 
-# Resources
+# Related Resources
 
 - [ ] [Source Addresses](https://www.terraform.io/docs/language/providers/requirements.html#source-addresses)
 - [ ] [Provider Requirements](https://www.terraform.io/docs/language/providers/requirements.html)
+- [x] [Creating a Terraform Provider for Just About Anything](https://www.youtube.com/watch?v=noxwUVet5RE)
+- [x] [101 - Getting started with Terraform and Custom Providers](https://www.youtube.com/watch?v=G1pdNwwYXzk)
 
 
      

@@ -115,7 +115,7 @@ func dataSourceArticlesRead(ctx context.Context, d *schema.ResourceData, m inter
 		return diag.FromErr(err)
 	}
 	//fmt.Println(tkn)
-	req.Header.Set("Token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTY0Mjc2MzJ9.iqosnVH8UIEfTosCPqjSCwLhcm88zFoD1H7g4Bg1Ecs")
+	req.Header.Set("Token", tkn)
 
 	r, err := client.Do(req)
 

@@ -93,7 +93,7 @@ func dataSourceArticleRead(ctx context.Context, d *schema.ResourceData, m interf
 	}
 
 	//req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTY0Mjc2MzJ9.iqosnVH8UIEfTosCPqjSCwLhcm88zFoD1H7g4Bg1Ecs")
+	req.Header.Set("Token", tkn)
 
 	r, err := client.Do(req)
 

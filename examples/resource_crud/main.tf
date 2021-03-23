@@ -15,7 +15,7 @@ resource "articleserver_resourceCRUD" "first_resource" {
     author {
       id = "20"
       name = "terraform"
-      rating = 30
+      rating = 22
     }
   }
 }

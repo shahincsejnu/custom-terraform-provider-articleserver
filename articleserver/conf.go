@@ -25,3 +25,5 @@ func flattenAuthor(article Article) []map[string]interface{} {
 
 	return specs
 }
+
+var tkn = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTY0ODczNzd9.HRshxnME992RbuMeB97FpBjckkmJFmjNhNnenLpK3zw"

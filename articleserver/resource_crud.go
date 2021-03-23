@@ -106,7 +106,7 @@ func resourceCreate(ctx context.Context, d *schema.ResourceData, m interface{}) 
 		return diag.FromErr(err)
 	}
 
-	req.Header.Set("Token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTY0Mjc2MzJ9.iqosnVH8UIEfTosCPqjSCwLhcm88zFoD1H7g4Bg1Ecs")
+	req.Header.Set("Token", tkn)
 
 	r, err := client.Do(req)
 	if err != nil {
@@ -140,7 +140,7 @@ func resourceRead(ctx context.Context, d *schema.ResourceData, m interface{}) di
 		return diag.FromErr(err)
 	}
 
-	req.Header.Set("Token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTY0Mjc2MzJ9.iqosnVH8UIEfTosCPqjSCwLhcm88zFoD1H7g4Bg1Ecs")
+	req.Header.Set("Token", tkn)
 
 	r, err := client.Do(req)
 	if err != nil {
@@ -162,15 +162,15 @@ func resourceRead(ctx context.Context, d *schema.ResourceData, m interface{}) di
 	}
 
 	// always run
-	//d.SetId(demoArticle.ID)
+	d.SetId(demoArticle.ID)
 
 	return diags
 }
 
 func resourceUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	var diags diag.Diagnostics
+	//var diags diag.Diagnostics
 
-	//if d.HasChange("article") {
+	if d.HasChange("article") {
 		client := &http.Client{Timeout: 10 * time.Second}
 		// Warning or errors can be collected in a slice type
 
@@ -214,7 +214,7 @@ func resourceUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) 
 			return diag.FromErr(err)
 		}
 
-		req.Header.Set("Token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTY0Mjc2MzJ9.iqosnVH8UIEfTosCPqjSCwLhcm88zFoD1H7g4Bg1Ecs")
+		req.Header.Set("Token", tkn)
 
 		_, err = client.Do(req)
 		if err != nil {
@@ -222,10 +222,10 @@ func resourceUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) 
 			return diag.FromErr(err)
 		}
 
-	//}
+	}
 
-	//return resourceRead(ctx, d, m)
-	return diags
+	return resourceRead(ctx, d, m)
+	//return diags
 }
 
 func resourceDelete(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
@@ -241,7 +241,7 @@ func resourceDelete(ctx context.Context, d *schema.ResourceData, m interface{}) 
 		return diag.FromErr(err)
 	}
 
-	req.Header.Set("Token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTY0Mjc2MzJ9.iqosnVH8UIEfTosCPqjSCwLhcm88zFoD1H7g4Bg1Ecs")
+	req.Header.Set("Token", tkn)
 
 	_, err = client.Do(req)
 	if err != nil {
